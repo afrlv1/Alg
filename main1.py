@@ -4,6 +4,8 @@ import datetime as dt
 class Record:
     def __init__(self, amount, comment, date=''):  # date=''-> date=None
         self.amount = amount
+        # Можно так указать dt.datetime.now().date() -> dt.date.today()
+        # Перенос строк не очень красивый на мой взгляд. Я бы сделал в одну строку
         self.date = (
             dt.datetime.now().date() if   # Перенос строк не очень красивый на мой взгляд. Я бы сделал в одну строку
             not
@@ -28,10 +30,10 @@ class Calculator:
 
     def get_week_stats(self):
         week_stats = 0
-        today = dt.datetime.now().date()
+        today = dt.datetime.now().date()  # Можно так указать dt.datetime.now().date() -> dt.date.today()
         for record in self.records:
             if (
-                (today - record.date).days < 7 and  # Я бы сделал поизящнее -> 7 > (today - record.date).days >= 0
+                (today - record.date).days < 7 and  # Я бы сделал попроще -> 7 > (today - record.date).days >= 0
                 (today - record.date).days >= 0
             ):
                 week_stats += record.amount
@@ -45,7 +47,8 @@ class CaloriesCalculator(Calculator):
             return f'Сегодня можно съесть что-нибудь' \
                    f' ещё, но с общей калорийностью не более {x} кКал'
         else:
-            return('Хватит есть!')   # Можно и без скобок. Так тоже работает.
+            return('Хватит есть!')   # Можно и без скобок. Так тоже работает и можно без else Так как всего два варианта
+                                        # завершения цикла .
 
 
 class CashCalculator(Calculator):
@@ -70,8 +73,9 @@ class CashCalculator(Calculator):
         elif currency_type == 'rub':
             cash_remained == 1.00   # Случайно два знака равно
             currency_type = 'руб'
+        # для улучшения читаемости, я бы оставил строку. Логически тут уже другой блок
         if cash_remained > 0:
-            # Вычислять в f строках - ну такое... Лучше ее отдельно посчитать
+            # Вычислять в f строках - не корректно. Лучше ее отдельно посчитать
             return (
                 f'На сегодня осталось {round(cash_remained, 2)} '
                 f'{currency_type}'
