@@ -7,7 +7,7 @@ class Record:
         # Можно так указать dt.datetime.now().date() -> dt.date.today()
         # Перенос строк не очень красивый на мой взгляд. Я бы сделал в одну строку
         self.date = (
-            dt.datetime.now().date() if   # Перенос строк не очень красивый на мой взгляд. Я бы сделал в одну строку
+            dt.datetime.now().date() if
             not
             date else dt.datetime.strptime(date, '%d.%m.%Y').date())
         self.comment = comment
@@ -83,9 +83,14 @@ class CashCalculator(Calculator):
         elif cash_remained == 0:
             return 'Денег нет, держись'
         elif cash_remained < 0:
+
             return 'Денег нет, держись:' \
                    ' твой долг - {0:.2f} {1}'.format(-cash_remained,
                                                      currency_type)
+    # Можно отдельно определять строку типа response = '....'
+    # и после цилка if ilse возвращать return response
+    # И можно просто if без elif
+
 
     # не совсем понятно, для чего мы вызываем еще раз этот параметр.
     def get_week_stats(self):
