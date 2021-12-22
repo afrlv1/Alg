@@ -10,13 +10,18 @@ class InfoMessage:
     distance: float
     speed: float
     calories: float
+    TRAINING_TYPE_MSG: ClassVar[str] = 'Тип тренировки'
+    DURATION_MSG: ClassVar[str] = 'длительность'
+    DISTANCE_MSG: ClassVar[str] = 'дистанция'
+    SPEED_MSG: ClassVar[str] = 'ср. скорость'
+    CALORIES_MSG: ClassVar[str] = 'потрачено ккал'
 
     def get_message(self) -> str:
-        message = (f'Тип тренировки: {self.training_type}; '
-                   f'длительность: {self.duration:.3f} ч.; '
-                   f'дистанция: {self.distance:.3f} км; '
-                   f'ср. скорость: {self.speed:.3f} км/ч; '
-                   f'потрачено ккал: {self.calories:.3f}.')
+        message = (f'{self.TRAINING_TYPE_MSG}: {self.training_type}; '
+                   f'{self.DURATION_MSG}: {self.duration:.3f} ч.; '
+                   f'{self.DISTANCE_MSG}: {self.distance:.3f} км; '
+                   f'{self.SPEED_MSG}: {self.speed:.3f} км/ч; '
+                   f'{self.CALORIES_MSG}: {self.calories:.3f}.')
         return message
 
 
@@ -114,7 +119,7 @@ def read_package(workout_type: str, data: list[int]) -> Union[Type[Swimming], Ty
     return package(*data) if package else None
 
 
-def main(training: Union[Running, SportsWalking, Swimming]) -> None:
+def main(training: Type[Union[Swimming, Running, SportsWalking]]) -> None:
     """Главная функция."""
     info = training.show_training_info()
     print(info.get_message())
