@@ -24,8 +24,8 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
     LEN_STEP: ClassVar[float] = 0.65
-    M_IN_KM: ClassVar[int] = 1000
-    action: int
+    M_IN_KM: ClassVar[float] = 1000
+    action: float
     duration: float
     weight: float
 
@@ -41,7 +41,8 @@ class Training:
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        pass
+        raise NotImplementedError(
+            'Определите get_spent_calories в %s.' % type(self).__name__)
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -53,9 +54,9 @@ class Training:
 @dataclass
 class Running(Training):
     """Тренировка: бег."""
-    RUN_CALORIE_RATIO_1: ClassVar[int] = 18
-    RUN_CALORIE_RATIO_2: ClassVar[int] = 20
-    V_MIN: ClassVar[int] = 60
+    RUN_CALORIE_RATIO_1: ClassVar[float] = 18
+    RUN_CALORIE_RATIO_2: ClassVar[float] = 20
+    V_MIN: ClassVar[float] = 60
 
     def get_spent_calories(self) -> float:
         spent_calories = ((self.RUN_CALORIE_RATIO_1 * self.get_mean_speed() - self.RUN_CALORIE_RATIO_2)
@@ -109,8 +110,8 @@ def read_package(workout_type: str, data: list):
         'WLK': SportsWalking,
         'SWM': Swimming,
     }
-    package = read.get(workout_type)(*data)
-    return package
+    package = read.get(workout_type)
+    return package(*data) if package else None
 
 
 def main(training: Union[Running, SportsWalking, Swimming]) -> None:
@@ -127,4 +128,4 @@ if __name__ == '__main__':
     ]
     for workout_type, data in packages:
         training = read_package(workout_type, data)
-        main(training)
+        main(training) if training else print('Неизвестный тип тренировки')
