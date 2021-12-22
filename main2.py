@@ -13,10 +13,10 @@ class InfoMessage:
 
     def get_message(self) -> str:
         message = (f'Тип тренировки: {self.training_type}; '
-                   f'Длительность: {self.duration:.3f} ч.; '
-                   f'Дистанция: {self.distance:.3f} км; '
-                   f'Ср. скорость: {self.speed:.3f} км/ч; '
-                   f'Потрачено ккал: {self.calories:.3f}.')
+                   f'длительность: {self.duration:.3f} ч.; '
+                   f'дистанция: {self.distance:.3f} км; '
+                   f'ср. скорость: {self.speed:.3f} км/ч; '
+                   f'потрачено ккал: {self.calories:.3f}.')
         return message
 
 
@@ -50,6 +50,7 @@ class Training:
         return message
 
 
+@dataclass
 class Running(Training):
     """Тренировка: бег."""
     RUN_CALORIE_RATIO_1: ClassVar[int] = 18
@@ -62,6 +63,7 @@ class Running(Training):
         return spent_calories
 
 
+@dataclass
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     WALK_CALORIE_RATIO_1: ClassVar[float] = 0.035
@@ -101,7 +103,7 @@ class Swimming(Training):
         return spent_calories
 
 
-def read_package(workout_type: str, data: list) -> Union[Running, SportsWalking, Swimming]:
+def read_package(workout_type: str, data: list):
     """Прочитать данные полученные от датчиков."""
     read = {
         'RUN': Running,
