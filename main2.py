@@ -63,7 +63,6 @@ class Running(Training):
         return spent_calories
 
 
-@dataclass
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
     WALK_CALORIE_RATIO_1: ClassVar[float] = 0.035
