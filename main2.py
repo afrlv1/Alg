@@ -52,37 +52,35 @@ class Training:
 
 class Running(Training):
     """Тренировка: бег."""
-    RUN_COEFF_CALORIE: ClassVar[int] = 18
-    COEFF_CALORIE_2: ClassVar[int] = 20
-    VMIN: ClassVar[int] = 60
+    RUN_CALORIE_RATIO_1: ClassVar[int] = 18
+    RUN_CALORIE_RATIO_2: ClassVar[int] = 20
+    V_MIN: ClassVar[int] = 60
 
     def get_spent_calories(self) -> float:
-        spent_calories = ((self.RUN_COEFF_CALORIE * self.get_mean_speed() - self.COEFF_CALORIE_2)
-                          * self.weight / self.M_IN_KM * (self.duration * self.VMIN))
+        spent_calories = ((self.RUN_CALORIE_RATIO_1 * self.get_mean_speed() - self.RUN_CALORIE_RATIO_2)
+                          * self.weight / self.M_IN_KM * (self.duration * self.V_MIN))
         return spent_calories
 
 
 class SportsWalking(Training):
     """Тренировка: спортивная ходьба."""
-
-    COEFF_CALORIE_3: ClassVar[float] = 0.035
-    COEFF_CALORIE_4: ClassVar[float] = 0.029
+    WALK_CALORIE_RATIO_1: ClassVar[float] = 0.035
+    WALK_CALORIE_RATIO_2: ClassVar[float] = 0.029
 
     def __init__(self, action: int, duration: float, weight: float, height: float):
         super().__init__(action, duration, weight)
         self.height = height
 
     def get_spent_calories(self) -> float:
-        return (self.COEFF_CALORIE_3 * self.weight
-                + (self.get_mean_speed() ** 2 // self.height)
-                * self.COEFF_CALORIE_4 * self.weight) * (self.duration
-                                                         * Running.VMIN)
+        spent_calories = (self.WALK_CALORIE_RATIO_1 * self.weight + (self.get_mean_speed() ** 2 // self.height)
+                          * self.WALK_CALORIE_RATIO_2 * self.weight) * (self.duration * Running.V_MIN)
+        return spent_calories
 
 
 class Swimming(Training):
     """Тренировка: плавание."""
-    coeff_calorie_5: ClassVar[float] = 1.1
-    coeff_calorie_6: ClassVar[float] = 2.0
+    SWIM_CALORIE_RATIO_1: ClassVar[float] = 1.1
+    SWIM_CALORIE_RATIO_2: ClassVar[float] = 2.0
     LEN_STEP: ClassVar[float] = 1.38
 
     def __init__(self, action: int, duration: float, weight: float, length_pool: float, count_pool: int):
@@ -99,7 +97,7 @@ class Swimming(Training):
         return mean_speed
 
     def get_spent_calories(self) -> float:
-        spent_calories = (self.get_mean_speed() + self.coeff_calorie_5) * self.coeff_calorie_6 * self.weight
+        spent_calories = (self.get_mean_speed() + self.SWIM_CALORIE_RATIO_1) * self.SWIM_CALORIE_RATIO_2 * self.weight
         return spent_calories
 
 
