@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import ClassVar, Type, Optional
+from typing import ClassVar, Type, Optional, Union
 
 
 @dataclass
@@ -103,9 +103,9 @@ class Swimming(Training):
         return spent_calories
 
 
-def read_package(workout_type: str, data: list) -> Optional[Type[Swimming], Type[Running], Type[SportsWalking]]:
+def read_package(workout_type: str, data: list) -> Union[Type[Swimming], Type[Running], Type[SportsWalking], None]:
     """Прочитать данные полученные от датчиков."""
-    read: dict[str, Type[Optional[Swimming, Running, SportsWalking]]] = {
+    read: dict[str, Type[Union[Swimming, Running, SportsWalking]]] = {
         'RUN': Running,
         'WLK': SportsWalking,
         'SWM': Swimming,
@@ -114,7 +114,7 @@ def read_package(workout_type: str, data: list) -> Optional[Type[Swimming], Type
     return package(*data) if package else None
 
 
-def main(training: Optional[Running, SportsWalking, Swimming]) -> None:
+def main(training: Union[Running, SportsWalking, Swimming]) -> None:
     """Главная функция."""
     info = training.show_training_info()
     print(info.get_message())
