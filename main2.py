@@ -11,10 +11,10 @@ class InfoMessage:
     speed: float
     calories: float
     TRAINING_TYPE_MSG: ClassVar[str] = 'Тип тренировки'
-    DURATION_MSG: ClassVar[str] = 'длительность'
-    DISTANCE_MSG: ClassVar[str] = 'дистанция'
-    SPEED_MSG: ClassVar[str] = 'ср. скорость'
-    CALORIES_MSG: ClassVar[str] = 'потрачено ккал'
+    DURATION_MSG: ClassVar[str] = 'Длительность'
+    DISTANCE_MSG: ClassVar[str] = 'Дистанция'
+    SPEED_MSG: ClassVar[str] = 'Ср. скорость'
+    CALORIES_MSG: ClassVar[str] = 'Потрачено ккал'
 
     def get_message(self) -> str:
         message = (f'{self.TRAINING_TYPE_MSG}: {self.training_type}; '
