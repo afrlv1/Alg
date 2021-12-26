@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import ClassVar, Type, Optional, Union
+from typing import ClassVar, Type, Union
 
 
 @dataclass
@@ -51,8 +51,9 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        message = InfoMessage(type(self).__name__, self.duration, self.get_distance(),
-                              self.get_mean_speed(), self.get_spent_calories())
+        message = InfoMessage(type(self).__name__, self.duration,
+                              self.get_distance(), self.get_mean_speed(),
+                              self.get_spent_calories())
         return message
 
 
@@ -64,8 +65,10 @@ class Running(Training):
     V_MIN: ClassVar[float] = 60
 
     def get_spent_calories(self) -> float:
-        spent_calories = ((self.RUN_CALORIE_RATIO_1 * self.get_mean_speed() - self.RUN_CALORIE_RATIO_2)
-                          * self.weight / self.M_IN_KM * (self.duration * self.V_MIN))
+        spent_calories = ((self.RUN_CALORIE_RATIO_1 * self.get_mean_speed()
+                           - self.RUN_CALORIE_RATIO_2)
+                          * self.weight / self.M_IN_KM *
+                          (self.duration * self.V_MIN))
         return spent_calories
 
 
@@ -74,13 +77,16 @@ class SportsWalking(Training):
     WALK_CALORIE_RATIO_1: ClassVar[float] = 0.035
     WALK_CALORIE_RATIO_2: ClassVar[float] = 0.029
 
-    def __init__(self, action: float, duration: float, weight: float, height: float):
+    def __init__(self, action: float, duration: float,
+                 weight: float, height: float):
         super().__init__(action, duration, weight)
         self.height = height
 
     def get_spent_calories(self) -> float:
-        spent_calories = (self.WALK_CALORIE_RATIO_1 * self.weight + (self.get_mean_speed() ** 2 // self.height)
-                          * self.WALK_CALORIE_RATIO_2 * self.weight) * (self.duration * Running.V_MIN)
+        spent_calories = (self.WALK_CALORIE_RATIO_1 * self.weight
+                          + (self.get_mean_speed() ** 2 // self.height)
+                          * self.WALK_CALORIE_RATIO_2 * self.weight) \
+                         * (self.duration * Running.V_MIN)
         return spent_calories
 
 
@@ -90,7 +96,8 @@ class Swimming(Training):
     SWIM_CALORIE_RATIO_2: ClassVar[float] = 2.0
     LEN_STEP: ClassVar[float] = 1.38
 
-    def __init__(self, action: float, duration: float, weight: float, length_pool: float, count_pool: float):
+    def __init__(self, action: float, duration: float, weight: float,
+                 length_pool: float, count_pool: float):
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
@@ -100,15 +107,18 @@ class Swimming(Training):
         return distance
 
     def get_mean_speed(self):
-        mean_speed = self.length_pool * self.count_pool / self.M_IN_KM / self.duration
+        mean_speed = (self.length_pool * self.count_pool / self.M_IN_KM
+                      / self.duration)
         return mean_speed
 
     def get_spent_calories(self) -> float:
-        spent_calories = (self.get_mean_speed() + self.SWIM_CALORIE_RATIO_1) * self.SWIM_CALORIE_RATIO_2 * self.weight
+        spent_calories = (self.get_mean_speed() + self.SWIM_CALORIE_RATIO_1) \
+                         * self.SWIM_CALORIE_RATIO_2 * self.weight
         return spent_calories
 
 
-def read_package(workout_type: str, data: list[int]) -> Union[Type[Swimming], Type[Running], Type[SportsWalking], None]:
+def read_package(workout_type: str, data: list[int]) \
+        -> Union[Type[Swimming],Type[Running], Type[SportsWalking], None]:
     """Прочитать данные полученные от датчиков."""
     read = {
         'RUN': Running,
