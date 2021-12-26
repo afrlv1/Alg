@@ -110,7 +110,7 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list[int]) -> Union[Type[Swimming], Type[Running], Type[SportsWalking], None]:
     """Прочитать данные полученные от датчиков."""
-    read: dict[str, Type[Union[Swimming, Running, SportsWalking]]] = {
+    read = {
         'RUN': Running,
         'WLK': SportsWalking,
         'SWM': Swimming,
